@@ -1,4 +1,4 @@
-import { MessagesState } from '../../types/messageTypes';
+import { MessageType, MessagesState } from '../../types/messageTypes';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { clearRoom } from './roomSlice';
 
@@ -10,12 +10,11 @@ const messageSlice = createSlice({
   name: 'messageSlice',
   initialState,
   reducers: {
-    // addMessage(state, action: PayloadAction<MessageType>) {
-    addMessage(state, action: PayloadAction<string>) {
-      state.messages.push({
-        createdAt: new Date().toDateString(),
-        message: action.payload,
-      });
+    addMessage(state, action: PayloadAction<MessageType>) {
+      state.messages.push(action.payload);
+    },
+    getMessages(state, action: PayloadAction<MessageType[]>) {
+      state.messages = action.payload;
     },
     clearMessages(state) {
       state.messages = [];
@@ -28,5 +27,5 @@ const messageSlice = createSlice({
   },
 });
 
-export const { addMessage, clearMessages } = messageSlice.actions;
+export const { addMessage, clearMessages, getMessages } = messageSlice.actions;
 export default messageSlice.reducer;

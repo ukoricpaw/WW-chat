@@ -1,20 +1,23 @@
 import { AppDispatch } from '../store';
 import { MessageType } from '../types/messageTypes';
-import { addMessage } from '../store/slices/messageSlice';
-import { DataByJoiningRoom } from '../types/roomTypes';
+import { addMessage, getMessages } from '../store/slices/messageSlice';
+import { DataByJoiningToDialog } from '../types/roomTypes';
+import { joinToDialog } from '../store/slices/roomSlice';
 
 export default function onEvents(dispatch: AppDispatch) {
   return [
     {
       eventName: 'message:getMessage',
-      event: ({ userId, data }: { userId: number; data: { message: string } }) => {
-        dispatch(addMessage(data.message));
+      event: ({ userId, data }: { userId: number; data: MessageType }) => {
+        dispatch(addMessage(data));
       },
     },
     {
       eventName: 'chat-client:join',
-      event: (data: DataByJoiningRoom) => {
-        dispatch(addMessage(data.message));
+      event: (data: DataByJoiningToDialog) => {
+        dispatch(joinToDialog(data));
+        console.log(data);
+        dispatch(getMessages(data.data.messages.rows));
       },
     },
   ];

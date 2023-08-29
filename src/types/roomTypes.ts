@@ -17,6 +17,7 @@ type UserInfoType = Omit<UserType, 'isActivated'> & {
 
 export interface RoomState {
   roomType: RoomType;
+  roomId: number | null;
   groupInfo: GroupType | null;
   userInfo: UserInfoType | null;
 }
@@ -44,13 +45,14 @@ type RoomResponseType = {
   user2Id: number;
 };
 
-export interface DataByJoiningRoom {
+export interface DataByJoiningToDialog {
   userId: number;
   data: {
     messages: {
       count: number;
       rows: MessageType[];
     };
+    user: Omit<UserType, 'isActivated'>;
     room: RoomResponseType;
   };
 }

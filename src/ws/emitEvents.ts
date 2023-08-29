@@ -6,8 +6,11 @@ export default function emitEvents(socket: Socket): WebSocketEmitEvents {
     sendMessage: (message: string, roomId: number) => {
       socket.emit('message:sendToRoom', { roomId, message });
     },
-    joinChat: (email: string) => {
-      socket.emit('chat:joinChat', email);
+    joinDialogChat: (email: string) => {
+      socket.emit('chat:joinDialogChat', email);
+    },
+    leaveDialogChat: () => {
+      socket.emit('chat:leaveDialogChat');
     },
   };
 }

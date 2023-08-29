@@ -4,14 +4,16 @@ import styles from '../../styles/SingleChat.module.scss';
 import { useContext } from 'react';
 import { WebSocketEventsContext } from '../GeneralComponents/WebSocketLayout';
 import useFormFields from '../../hooks/useFormFields';
+import { useAppSelector } from '../../hooks/reduxHooks';
+import { roomIdSelector } from '../../store/selectors/roomSelectors';
 
 const InputMessageContainer: FC = () => {
+  const roomId = useAppSelector(roomIdSelector);
   const [value, setState] = useFormFields({ messageValue: '' });
-
   const changeMessage = setState('messageValue');
 
   const sendMessageHandler = () => {
-    wsEvents?.emitEventsHandler('sendMessage')(value.messageValue, 1);
+    wsEvents?.emitEventsHandler('sendMessage')(value.messageValue, roomId as number);
     changeMessage('');
   };
 

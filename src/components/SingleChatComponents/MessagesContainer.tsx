@@ -8,7 +8,7 @@ const MessagesContainer: FC = () => {
   return (
     <ul className={styles.messagesContainer}>
       {messages.map(messageData => {
-        return <li key={messageData.message}>{messageData.message}</li>;
+        return <li key={messageData.id}>{messageData.text}</li>;
       })}
     </ul>
   );

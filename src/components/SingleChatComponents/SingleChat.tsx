@@ -18,8 +18,12 @@ const SingleChat: FC = () => {
       navigate('/chat');
       return;
     }
-    wsContext?.emitEventsHandler('joinChat')(email as string);
+    wsContext?.emitEventsHandler('joinDialogChat')(email as string);
     setLoading(false);
+
+    return () => {
+      wsContext?.emitEventsHandler('leaveDialogChat')();
+    };
   }, [email]);
 
   if (isLoading) {
