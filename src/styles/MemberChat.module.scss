@@ -1,0 +1,43 @@
+.memberLayout:hover {
+  background-color: var(--theme-gray);
+  border-radius: 12px;
+}
+
+.memberLayout {
+  display: flex;
+  padding: 12px 10px;
+  gap: 12px;
+  cursor: pointer;
+
+  & .userNullAvatar {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 22px;
+    background-color: var(--theme-access);
+    border-radius: 50%;
+    color: var(--theme-light);
+  }
+
+  & .memberLayout__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    & .memberName {
+      font-size: 18px;
+      text-transform: capitalize;
+      font-weight: 500;
+      color: black;
+    }
+
+    & .memberTextVal {
+      color: rgb(148, 148, 148);
+    }
+  }
+}

@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { setupStore } from './store';
+import Router from './Router';
+import './styles/globals.scss';
+import { useAppDispatch } from './hooks/reduxHooks';
+import refreshToken from './store/thunks/refreshToken';
 
-function App() {
+const App: FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    setIsLoading(true);
+    dispatch(refreshToken())
+      .then(data => {
+        if (typeof data === 'string') {
+          navigate('/chat');
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  if (isLoading) {
+    return <></>;
+  }
+
+  const store = setupStore();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="container">
+      <section className="container__ownWrapper">
+        <Router />
+      </section>
+    </main>
   );
-}
+};
 
 export default App;

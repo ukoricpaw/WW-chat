@@ -1,0 +1,44 @@
+%flexColumnTemplate {
+  display: flex;
+  flex-direction: column;
+}
+
+.singleChatContainer,
+.dialogContainer {
+  @extend %flexColumnTemplate;
+  flex: 1;
+  background-color: var(--theme-light);
+}
+
+.singleChatContainer {
+  align-items: center;
+}
+
+.contactInfo {
+  width: 100%;
+}
+.dialogContainer {
+  width: 650px;
+  & .messagesContainer {
+    flex: 1 1 auto;
+  }
+
+  .inputMessageContainer {
+    @extend %flexColumnTemplate;
+    box-sizing: border-box;
+    gap: 10px;
+    width: 100%;
+    & .inputMessage {
+      outline: none;
+      resize: none;
+      padding: 10px;
+      border-radius: 10px;
+    }
+  }
+}
+
+.messagesContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
