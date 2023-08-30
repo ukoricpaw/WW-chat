@@ -1,5 +1,6 @@
 export interface MessagesState {
   messages: MessageType[];
+  isLoading: boolean;
 }
 
 export type MessageType = {

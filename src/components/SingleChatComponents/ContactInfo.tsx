@@ -1,12 +1,16 @@
 import { FC } from 'react';
 import styles from '../../styles/SingleChat.module.scss';
-import { useAppSelector } from '../../hooks/reduxHooks';
-import { roomUserInfoSelector } from '../../store/selectors/roomSelectors';
 import MemberItem from '../MemberComponents/MemberItem';
+import { useAppSelector } from '../../hooks/reduxHooks';
+import { contactInfoSelectorById } from '../../store/selectors/roomSelectors';
 
-const ContactInfo: FC = () => {
-  const roomInfo = useAppSelector(roomUserInfoSelector);
-  console.log(roomInfo);
+interface ContactInfoIProps {
+  roomId: number;
+}
+
+const ContactInfo: FC<ContactInfoIProps> = ({ roomId }) => {
+  const roomInfo = useAppSelector(state => contactInfoSelectorById(state, roomId));
+
   return (
     <div className={styles.contactInfo}>
       <MemberItem avatar={roomInfo?.avatar ?? null} name={roomInfo?.email as string} textVal="В сети" />
