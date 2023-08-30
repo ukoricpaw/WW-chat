@@ -7,7 +7,7 @@ interface GroupType {
   name: string;
   description: string | null;
   membersCount: number;
-  members: Omit<UserType, 'isActivated'>;
+  members: UserType[];
 }
 
 type UserInfoType = Omit<UserType, 'isActivated'> & {
@@ -15,13 +15,24 @@ type UserInfoType = Omit<UserType, 'isActivated'> & {
   isOnline: boolean;
 };
 
-export interface RoomState {
+export interface RoomsState {
   isLoading: boolean;
+  rooms: RoomInfoType[];
+  roomIds: number[];
+}
+
+export type RoomInfoType = {
   roomType: RoomType;
-  roomId: number | null;
+  roomId: number;
+  lastMessage: LastMessageType;
   groupInfo: GroupType | null;
   userInfo: UserInfoType | null;
-}
+};
+
+export type LastMessageType = Pick<MessageType, 'isFixed' | 'text'> & {
+  createdAt: string;
+  user: Omit<UserType, 'isActivated'>;
+};
 
 export interface ChatsState {
   chats: ChatNotificationType[];
@@ -56,4 +67,27 @@ export interface DataByJoiningToDialog {
     user: Omit<UserType, 'isActivated'>;
     room: RoomResponseType;
   };
+}
+
+interface CountAndRows<T> {
+  count: number;
+  rows: T[];
+}
+
+export interface RoomsResponse {
+  dialogRooms: CountAndRows<DialogRoomResponse>;
+  groupRooms: CountAndRows<GroupRoomResponse>;
+}
+
+interface LastMessageInterface {
+  lastMessage: LastMessageType;
+}
+
+interface DialogRoomResponse extends LastMessageInterface {
+  room: Pick<RoomResponseType, 'createdAt' | 'id' | 'updatedAt' | 'user1Id' | 'user2Id'>;
+  user: Omit<UserType, 'isActivated'>;
+}
+
+interface GroupRoomResponse extends LastMessageInterface {
+  room: Omit<RoomResponseType, 'user1Id' | 'user2Id'>;
 }

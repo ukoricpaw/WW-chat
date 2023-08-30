@@ -3,11 +3,12 @@ import styles from '../../styles/SingleChat.module.scss';
 import { useContext } from 'react';
 import { WebSocketEventsContext } from '../GeneralComponents/WebSocketLayout';
 import useFormFields from '../../hooks/useFormFields';
-import { useAppSelector } from '../../hooks/reduxHooks';
-import { roomIdSelector } from '../../store/selectors/roomSelectors';
 
-const InputMessageContainer: FC = () => {
-  const roomId = useAppSelector(roomIdSelector);
+interface InputMessageContainerIProps {
+  roomId: number;
+}
+
+const InputMessageContainer: FC<InputMessageContainerIProps> = ({ roomId }) => {
   const [value, setState] = useFormFields({ messageValue: '' });
   const changeMessage = setState('messageValue');
 
