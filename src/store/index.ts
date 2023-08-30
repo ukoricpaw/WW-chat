@@ -3,7 +3,7 @@ import userSlice from './slices/userSlice';
 import { contactsApi } from './api/contactsApi';
 import searchSlice from './slices/searchSlice';
 import messageSlice from './slices/messageSlice';
-import roomSlice from './slices/roomSlice';
+import roomSlice from './slices/roomsSlice';
 
 const rootReducer = combineReducers({
   roomReducer: roomSlice,

@@ -1,6 +1,5 @@
 import { UserStateForSlice, UserType } from '../../types/userTypes';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchUserThunk } from '../thunks/fetchUserThunk';
 
 const initialState: UserStateForSlice = {
   isAuth: false,
