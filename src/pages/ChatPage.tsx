@@ -14,7 +14,9 @@ const ChatPage: FC = () => {
           <SearchSection />
           <ChatList />
         </section>
-        <Outlet />
+        <section className={styles.singleChat}>
+          <Outlet />
+        </section>
       </div>
     </WebSocketLayout>
   );

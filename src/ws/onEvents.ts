@@ -16,8 +16,13 @@ export default function onEvents(dispatch: AppDispatch) {
       eventName: 'chat-client:join',
       event: (data: DataByJoiningToDialog) => {
         dispatch(joinToDialog(data));
-        console.log(data);
         dispatch(getMessages(data.data.messages.rows));
+      },
+    },
+    {
+      eventName: 'chat:provide-all-rooms',
+      event: (data: any) => {
+        console.log(data);
       },
     },
   ];
