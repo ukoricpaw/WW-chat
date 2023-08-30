@@ -7,12 +7,16 @@ const initialState: RoomState = {
   userInfo: null,
   roomId: null,
   roomType: 'dialog',
+  isLoading: true,
 };
 
 const roomSlice = createSlice({
   name: 'roomSlice',
   initialState,
   reducers: {
+    setLoading(state) {
+      state.isLoading = true;
+    },
     clearRoom(state) {
       state.roomId = null;
       state.groupInfo = null;
@@ -20,10 +24,11 @@ const roomSlice = createSlice({
     },
     joinToDialog(state, action: PayloadAction<DataByJoiningToDialog>) {
       joinToDialogFunc(state, action.payload);
+      state.isLoading = false;
     },
   },
 });
 
-export const { clearRoom, joinToDialog } = roomSlice.actions;
+export const { clearRoom, joinToDialog, setLoading } = roomSlice.actions;
 
 export default roomSlice.reducer;

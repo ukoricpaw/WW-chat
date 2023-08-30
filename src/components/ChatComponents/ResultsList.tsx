@@ -4,6 +4,7 @@ import { searchValueSelector, typeValueSelector } from './../../store/selectors/
 import useFetchingFactory from './UserFetchingFactory';
 import MemberItem from '../MemberComponents/MemberItem';
 import styles from '../../styles/ChatAside.module.scss';
+import { Link } from 'react-router-dom';
 
 export const ResultsList: FC = () => {
   const searchValue = useAppSelector(searchValueSelector);
@@ -21,7 +22,9 @@ export const ResultsList: FC = () => {
       {searchValue.trim().length > 0 &&
         (data && data.rows.length > 0 ? (
           data.rows.map(user => (
-            <MemberItem key={user.id} name={user.email} avatar={user.avatar} textVal={user.email} />
+            <Link to={`${process.env.REACT_APP_CLIENT_URL}/chat/${user.email}`} key={user.id}>
+              <MemberItem key={user.id} name={user.email} avatar={user.avatar} textVal={user.email} />
+            </Link>
           ))
         ) : (
           <p>Ничего не найдено по Вашему запросу</p>

@@ -13,7 +13,7 @@ const Router: FC = () => {
       {isAuth ? (
         <>
           <Route path="/chat" element={<ChatPage />}>
-            <Route path="/chat" element={<SingleChat />} />
+            <Route path="/chat" element={<></>} />
             <Route path="/chat/:email" element={<SingleChat />} />
           </Route>
           <Route path="*" element={<Navigate to="/chat" />} />

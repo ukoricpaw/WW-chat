@@ -3,25 +3,28 @@ import styles from '../../styles/SingleChat.module.scss';
 import ContactInfo from './ContactInfo';
 import InputMessageContainer from './InputMessageContainer';
 import MessagesContainer from './MessagesContainer';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { WebSocketEventsContext } from '../GeneralComponents/WebSocketLayout';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { roomIsLoadingSelector } from '../../store/selectors/roomSelectors';
+import { setLoading } from '../../store/slices/roomSlice';
 
 const SingleChat: FC = () => {
   const { email } = useParams();
-  const [isLoading, setLoading] = useState<boolean>(false);
   const wsContext = useContext(WebSocketEventsContext);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(roomIsLoadingSelector);
   useEffect(() => {
-    setLoading(true);
     if (!email) {
       navigate('/chat');
       return;
     }
     wsContext?.emitEventsHandler('joinDialogChat')(email as string);
-    setLoading(false);
 
     return () => {
+      dispatch(setLoading());
       wsContext?.emitEventsHandler('leaveDialogChat')();
     };
   }, [email]);

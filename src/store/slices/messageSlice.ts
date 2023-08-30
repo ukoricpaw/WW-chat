@@ -14,7 +14,7 @@ const messageSlice = createSlice({
       state.messages.push(action.payload);
     },
     getMessages(state, action: PayloadAction<MessageType[]>) {
-      state.messages = action.payload;
+      state.messages = action.payload.reverse();
     },
     clearMessages(state) {
       state.messages = [];

@@ -9,10 +9,19 @@
   display: flex;
 }
 
+.singleChat {
+  flex: 1;
+  height: 100%;
+  background-image: url('../assets/images/1675517272_top-fon-com-p-krutoi-fon-dlya-prezentatsii-36.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .chatlist__container {
-  margin-top: 15px;
   @include flexContainer(column);
-  padding: 0 20px 20px;
+  padding: 15px 20px 20px;
+  border-right: 1px solid rgb(236, 236, 236);
 }
 
 .typesOfResults {

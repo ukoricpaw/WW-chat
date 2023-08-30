@@ -16,6 +16,7 @@ type UserInfoType = Omit<UserType, 'isActivated'> & {
 };
 
 export interface RoomState {
+  isLoading: boolean;
   roomType: RoomType;
   roomId: number | null;
   groupInfo: GroupType | null;

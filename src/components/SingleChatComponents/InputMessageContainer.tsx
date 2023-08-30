@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { Button } from '../UIComponents/Button';
 import styles from '../../styles/SingleChat.module.scss';
 import { useContext } from 'react';
 import { WebSocketEventsContext } from '../GeneralComponents/WebSocketLayout';
@@ -13,27 +12,29 @@ const InputMessageContainer: FC = () => {
   const changeMessage = setState('messageValue');
 
   const sendMessageHandler = () => {
-    wsEvents?.emitEventsHandler('sendMessage')(value.messageValue, roomId as number);
-    changeMessage('');
+    if (value.messageValue.trim().length) {
+      wsEvents?.emitEventsHandler('sendMessage')(value.messageValue, roomId as number);
+      changeMessage('');
+    }
   };
 
   const wsEvents = useContext(WebSocketEventsContext);
   return (
-    <div className={styles.inputMessageContainer}>
+    <div
+      onKeyDown={e => {
+        if (e.key === 'Enter') {
+          sendMessageHandler();
+        }
+      }}
+      className={styles.inputMessageContainer}
+    >
       <textarea
-        onKeyDown={e => {
-          if (e.key === 'Enter') {
-            sendMessageHandler();
-          }
-        }}
+        placeholder="Сообщение"
         onChange={changeMessage}
         value={value.messageValue}
         rows={1}
         className={styles.inputMessage}
       />
-      <Button onClick={sendMessageHandler} variant={'accent'}>
-        Отправить
-      </Button>
     </div>
   );
 };
