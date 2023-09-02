@@ -7,5 +7,5 @@ export type WebSocketEventsContextType = {
 export interface WebSocketEmitEvents {
   sendMessage: (message: string, roomId: number) => void;
   joinDialogChat: (email: string) => void;
-  leaveDialogChat: () => void;
+  clearDialogChat: (roomId: number) => void;
 }

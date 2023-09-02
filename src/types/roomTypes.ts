@@ -24,7 +24,7 @@ export interface RoomsState {
 export type RoomInfoType = {
   roomType: RoomType;
   roomId: number;
-  lastMessage: LastMessageType;
+  lastMessage: LastMessageType | null;
   groupInfo: GroupType | null;
   userInfo: UserInfoType | null;
 };
@@ -63,9 +63,9 @@ export interface DataByJoiningToDialog {
     messages: {
       count: number;
       rows: MessageType[];
-    };
-    user: Omit<UserType, 'isActivated'>;
-    room: RoomResponseType;
+    } | null;
+    user: Omit<UserType, 'isActivated'> | null;
+    room: RoomResponseType | null;
   };
 }
 

@@ -8,8 +8,9 @@ import { WebSocketEventsContext } from '../GeneralComponents/WebSocketLayout';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { roomIdSelectorByEmail } from '../../store/selectors/roomSelectors';
-import { setIsLoading } from '../../store/slices/messageSlice';
+import { clearMessages, setIsLoading } from '../../store/slices/messageSlice';
 import { messageIsLoadingSelector } from '../../store/selectors/messagesSelectors';
+import { clearRoomById } from '../../store/slices/roomsSlice';
 
 const SingleChat: FC = () => {
   const { email } = useParams();
@@ -24,12 +25,18 @@ const SingleChat: FC = () => {
       return;
     }
     wsContext?.emitEventsHandler('joinDialogChat')(email as string);
-
-    return () => {
-      dispatch(setIsLoading());
-      wsContext?.emitEventsHandler('leaveDialogChat')();
-    };
   }, [email]);
+
+  useEffect(() => {
+    return () => {
+      if (roomId) {
+        dispatch(setIsLoading(true));
+        wsContext?.emitEventsHandler('clearDialogChat')(roomId as number);
+        dispatch(clearMessages());
+        dispatch(clearRoomById(roomId));
+      }
+    };
+  }, [roomId]);
 
   if (isLoading || !roomId) {
     return <></>;

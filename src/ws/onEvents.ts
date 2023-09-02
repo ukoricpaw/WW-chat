@@ -1,8 +1,8 @@
 import { AppDispatch } from '../store';
 import { MessageType } from '../types/messageTypes';
-import { addMessage, getMessages } from '../store/slices/messageSlice';
+import { addMessage, getMessages, setIsLoading } from '../store/slices/messageSlice';
 import { DataByJoiningToDialog, RoomsResponse } from '../types/roomTypes';
-import { getRooms } from '../store/slices/roomsSlice';
+import { getNewRoom, getRooms } from '../store/slices/roomsSlice';
 
 export default function onEvents(dispatch: AppDispatch) {
   return [
@@ -15,8 +15,12 @@ export default function onEvents(dispatch: AppDispatch) {
     {
       eventName: 'chat-client:join',
       event: (data: DataByJoiningToDialog) => {
-        console.log(data);
-        dispatch(getMessages(data.data.messages.rows));
+        if (!data.data.room) {
+          dispatch(getMessages((data.data.messages as Exclude<(typeof data)['data']['messages'], null>).rows));
+        } else {
+          dispatch(getNewRoom(data));
+        }
+        dispatch(setIsLoading(false));
       },
     },
     {
