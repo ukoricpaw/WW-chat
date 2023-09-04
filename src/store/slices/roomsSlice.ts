@@ -2,6 +2,7 @@ import { DataByJoiningToDialog, RoomsResponse, RoomsState } from '../../types/ro
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { getDialogRooms, getGroupRooms, getRoomIds } from '../../utils/getRooms';
 import clearRoomByIdUtil from '../../utils/clearRoomByIdUtil';
+import { pushNewRoom } from '../../utils/pushNewRoom';
 
 const initialState: RoomsState = {
   rooms: [],
@@ -26,20 +27,7 @@ const roomsSlice = createSlice({
       state.isLoading = false;
     },
     getNewRoom(state, action: PayloadAction<DataByJoiningToDialog>) {
-      if (action.payload.data.room && action.payload.data.user) {
-        state.roomIds.push(action.payload.data.room?.id);
-        state.rooms.push({
-          groupInfo: null,
-          lastMessage: null,
-          userInfo: {
-            ...action.payload.data.user,
-            isOnline: false,
-            isTyping: false,
-          },
-          roomId: action.payload.data.room.id,
-          roomType: 'dialog',
-        });
-      }
+      pushNewRoom(state, action.payload);
     },
   },
 });
