@@ -1,8 +1,8 @@
 import { AppDispatch } from '../store';
 import { MessageType } from '../types/messageTypes';
 import { addMessage, getMessages, setIsLoading } from '../store/slices/messageSlice';
-import { DataByJoiningToDialog, RoomsResponse } from '../types/roomTypes';
-import { getNewRoom, getRooms } from '../store/slices/roomsSlice';
+import { DataByJoiningToDialog, RoomNotificationMessageResponse, RoomsResponse } from '../types/roomTypes';
+import { getNewRoom, getRooms, pushNotification } from '../store/slices/roomsSlice';
 
 export default function onEvents(dispatch: AppDispatch) {
   return [
@@ -27,6 +27,12 @@ export default function onEvents(dispatch: AppDispatch) {
       eventName: 'chat:provide-all-rooms',
       event: (data: RoomsResponse) => {
         dispatch(getRooms(data));
+      },
+    },
+    {
+      eventName: 'message:getNotificationMessage',
+      event: (room: RoomNotificationMessageResponse) => {
+        dispatch(pushNotification(room));
       },
     },
   ];

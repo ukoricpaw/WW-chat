@@ -83,11 +83,16 @@ interface LastMessageInterface {
   lastMessage: LastMessageType;
 }
 
-interface DialogRoomResponse extends LastMessageInterface {
+export interface DialogRoomResponse extends LastMessageInterface {
   room: Pick<RoomResponseType, 'createdAt' | 'id' | 'updatedAt' | 'user1Id' | 'user2Id'>;
   user: Omit<UserType, 'isActivated'>;
 }
 
-interface GroupRoomResponse extends LastMessageInterface {
+export interface GroupRoomResponse extends LastMessageInterface {
   room: Omit<RoomResponseType, 'user1Id' | 'user2Id'>;
+}
+
+export interface RoomNotificationMessageResponse {
+  userId: number;
+  data: DialogRoomResponse | GroupRoomResponse;
 }
