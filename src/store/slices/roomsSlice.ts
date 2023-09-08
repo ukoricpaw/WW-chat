@@ -51,8 +51,8 @@ const roomsSlice = createSlice({
         state.roomIds.unshift(roomId);
         state.rooms.unshift(room);
       } else {
-        state.roomIds.push(action.payload.data.room.id);
-        state.rooms.push({
+        state.roomIds.unshift(action.payload.data.room.id);
+        state.rooms.unshift({
           groupInfo: null,
           lastMessage: action.payload.data.lastMessage,
           userInfo: {
