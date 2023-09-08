@@ -17,6 +17,10 @@ export const ResultsList: FC = () => {
     return <div>Загрузка</div>;
   }
 
+  if (!searchValue.trim()) {
+    return <></>;
+  }
+
   return (
     <ul className={styles.resultsList}>
       {searchValue.trim().length > 0 &&
