@@ -3,6 +3,7 @@ import { useAppSelector } from '../../hooks/reduxHooks';
 import { roomDataSelectorById } from '../../store/selectors/roomSelectors';
 import MemberItem from './MemberItem';
 import { Link } from 'react-router-dom';
+import { userSelector } from '../../store/selectors/userSelectors';
 
 interface MemberChatNotificationIProps {
   roomId: number;
@@ -10,7 +11,7 @@ interface MemberChatNotificationIProps {
 
 const MemberChatNotification: FC<MemberChatNotificationIProps> = ({ roomId }) => {
   const roomData = useAppSelector(state => roomDataSelectorById(state, roomId));
-
+  const userData = useAppSelector(userSelector);
   if (!roomData || !roomData.lastMessage) {
     return <></>;
   }
@@ -25,7 +26,13 @@ const MemberChatNotification: FC<MemberChatNotificationIProps> = ({ roomId }) =>
         <MemberItem
           avatar={roomData.userInfo?.avatar as null | string}
           name={roomData.userInfo?.email as string}
-          textVal={roomData.lastMessage ? roomData.lastMessage.text : ''}
+          textVal={
+            roomData.lastMessage
+              ? roomData.lastMessage.user.id === userData.id
+                ? `Вы: ${roomData.lastMessage.text}`
+                : roomData.lastMessage.text
+              : ''
+          }
         />
       ) : (
         <MemberItem
