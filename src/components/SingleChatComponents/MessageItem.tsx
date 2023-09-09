@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { MessageType } from '../../types/messageTypes';
 
 import styles from '../../styles/SingleChat.module.scss';
+import { getMessageTime } from '../../utils/getMessageTime';
 
 interface MessageItemIProps {
   messageData: MessageType;
@@ -9,6 +10,8 @@ interface MessageItemIProps {
 }
 
 const MessageItem: FC<MessageItemIProps> = ({ userId, messageData }) => {
+  const messageTime = getMessageTime(messageData.createdAt);
+
   return (
     <li
       className={`${styles.messageItem} ${
@@ -17,6 +20,9 @@ const MessageItem: FC<MessageItemIProps> = ({ userId, messageData }) => {
       key={messageData.id}
     >
       {messageData.text}
+      <span className={`${styles.timeOfMessage} ${userId === messageData.receiverId ? styles.ownMessageTime : ''}`}>
+        {messageTime}
+      </span>
     </li>
   );
 };

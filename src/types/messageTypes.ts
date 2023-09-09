@@ -5,6 +5,7 @@ export interface MessagesState {
 }
 
 export type MessageType = {
+  createdAt: string;
   id: number;
   isChanged: boolean;
   text: string;

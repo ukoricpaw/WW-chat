@@ -9,6 +9,7 @@ export default function onEvents(dispatch: AppDispatch) {
       eventName: 'chat-client:join',
       event: (data: DataByJoiningToDialog) => {
         if (!data.data.room) {
+          console.log(data.data.messages);
           dispatch(getMessages((data.data.messages as Exclude<(typeof data)['data']['messages'], null>).rows));
         } else {
           dispatch(getNewRoom(data));
