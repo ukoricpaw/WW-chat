@@ -1,6 +1,7 @@
 export interface MessagesState {
   messages: MessageType[];
   isLoading: boolean;
+  roomId: null | number;
 }
 
 export type MessageType = {

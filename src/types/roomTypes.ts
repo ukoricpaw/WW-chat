@@ -29,7 +29,7 @@ export type RoomInfoType = {
   userInfo: UserInfoType | null;
 };
 
-export type LastMessageType = Pick<MessageType, 'isFixed' | 'text'> & {
+export type LastMessageType = MessageType & {
   createdAt: string;
   user: Omit<UserType, 'isActivated'>;
 };

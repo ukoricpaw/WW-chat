@@ -8,7 +8,7 @@ import { WebSocketEventsContext } from '../GeneralComponents/WebSocketLayout';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { roomIdSelectorByEmail } from '../../store/selectors/roomSelectors';
-import { clearMessages, setIsLoading } from '../../store/slices/messageSlice';
+import { clearMessages, getRoomId, setIsLoading } from '../../store/slices/messageSlice';
 import { messageIsLoadingSelector } from '../../store/selectors/messagesSelectors';
 import { clearRoomById } from '../../store/slices/roomsSlice';
 
@@ -28,6 +28,9 @@ const SingleChat: FC = () => {
   }, [email]);
 
   useEffect(() => {
+    if (roomId) {
+      dispatch(getRoomId(roomId as number));
+    }
     return () => {
       if (roomId) {
         dispatch(setIsLoading(true));

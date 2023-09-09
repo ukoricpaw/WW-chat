@@ -39,7 +39,8 @@
     & .memberTextVal {
       color: rgb(148, 148, 148);
       overflow: hidden;
-      max-width: 280px;
+      max-width: 275px;
+      white-space: nowrap;
       text-overflow: ellipsis;
     }
   }
