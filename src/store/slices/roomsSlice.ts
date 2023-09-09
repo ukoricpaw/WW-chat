@@ -45,11 +45,16 @@ const roomsSlice = createSlice({
         return false;
       });
       if (roomIdIfIsExist && indexOfRoom !== null) {
-        const [roomId] = state.roomIds.splice(indexOfRoom, 1);
-        const [room] = state.rooms.splice(indexOfRoom, 1);
-        room.lastMessage = action.payload.data.lastMessage;
-        state.roomIds.unshift(roomId);
-        state.rooms.unshift(room);
+        const room = state.rooms.at(indexOfRoom);
+        if (room) {
+          room.lastMessage = action.payload.data.lastMessage;
+        }
+        if (indexOfRoom !== 0) {
+          const [roomId] = state.roomIds.splice(indexOfRoom, 1);
+          const [room] = state.rooms.splice(indexOfRoom, 1);
+          state.roomIds.unshift(roomId);
+          state.rooms.unshift(room);
+        }
       } else {
         state.roomIds.unshift(action.payload.data.room.id);
         state.rooms.unshift({
