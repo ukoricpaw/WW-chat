@@ -27,11 +27,15 @@ const MemberChatNotification: FC<MemberChatNotificationIProps> = ({ roomId }) =>
           avatar={roomData.userInfo?.avatar as null | string}
           name={roomData.userInfo?.email as string}
           textVal={
-            roomData.lastMessage
+            roomData.userInfo?.isTyping
+              ? 'печатает...'
+              : /* eslint-disable indent */
+              roomData.lastMessage
               ? roomData.lastMessage.user.id === userData.id
                 ? `Вы: ${roomData.lastMessage.text}`
                 : roomData.lastMessage.text
               : ''
+            /* eslint-enable indent */
           }
         />
       ) : (

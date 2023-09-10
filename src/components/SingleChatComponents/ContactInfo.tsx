@@ -10,10 +10,13 @@ interface ContactInfoIProps {
 
 const ContactInfo: FC<ContactInfoIProps> = ({ roomId }) => {
   const roomInfo = useAppSelector(state => contactInfoSelectorById(state, roomId));
-
   return (
     <div className={styles.contactInfo}>
-      <MemberItem avatar={roomInfo?.avatar ?? null} name={roomInfo?.email as string} textVal="В сети" />
+      <MemberItem
+        avatar={roomInfo?.avatar ?? null}
+        name={roomInfo?.email as string}
+        textVal={roomInfo?.isTyping ? 'печатает...' : roomInfo?.isOnline ? 'В сети' : 'Не в сети'}
+      />
     </div>
   );
 };

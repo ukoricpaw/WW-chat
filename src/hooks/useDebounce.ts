@@ -5,18 +5,16 @@ interface UseDebounceIProps<T> {
   delay: number;
 }
 
-export default function useDebounce<T>({ value, delay }: UseDebounceIProps<T>): T {
+export default function useDebounce<T>({ value, delay }: UseDebounceIProps<T>) {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    const timer = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
-
     return () => {
-      clearTimeout(timeout);
+      clearTimeout(timer);
     };
   }, [value, delay]);
-
   return debouncedValue;
 }

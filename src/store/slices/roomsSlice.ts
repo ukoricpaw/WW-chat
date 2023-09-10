@@ -9,6 +9,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { getDialogRooms, getGroupRooms, getRoomIds } from '../../utils/getRooms';
 import clearRoomByIdUtil from '../../utils/clearRoomByIdUtil';
 import { pushNewRoom } from '../../utils/pushNewRoom';
+import { UserType } from '../../types/userTypes';
 
 const initialState: RoomsState = {
   rooms: [],
@@ -70,9 +71,27 @@ const roomsSlice = createSlice({
         });
       }
     },
+    userIsTyping(state, action: PayloadAction<{ roomId: number; userData: UserType }>) {
+      const room = state.rooms.find(room => room.roomId == action.payload.roomId);
+      if (room) {
+        if (room.userInfo) {
+          room.userInfo.isTyping = true;
+        }
+      }
+    },
+
+    userIsNotTyping(state, action: PayloadAction<{ roomId: number; userData: UserType }>) {
+      const room = state.rooms.find(room => room.roomId == action.payload.roomId);
+      if (room) {
+        if (room.userInfo) {
+          room.userInfo.isTyping = false;
+        }
+      }
+    },
   },
 });
 
-export const { setLoading, getRooms, getNewRoom, clearRoomById, pushNotification } = roomsSlice.actions;
+export const { userIsNotTyping, userIsTyping, setLoading, getRooms, getNewRoom, clearRoomById, pushNotification } =
+  roomsSlice.actions;
 
 export default roomsSlice.reducer;

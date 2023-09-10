@@ -11,6 +11,7 @@ import { roomIdSelectorByEmail } from '../../store/selectors/roomSelectors';
 import { clearMessages, getRoomId, setIsLoading } from '../../store/slices/messageSlice';
 import { messageIsLoadingSelector } from '../../store/selectors/messagesSelectors';
 import { clearRoomById } from '../../store/slices/roomsSlice';
+import { userSelector } from '../../store/selectors/userSelectors';
 
 const SingleChat: FC = () => {
   const { email } = useParams();
@@ -19,6 +20,7 @@ const SingleChat: FC = () => {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(messageIsLoadingSelector);
   const roomId = useAppSelector(state => roomIdSelectorByEmail(state, String(email)));
+  const userData = useAppSelector(userSelector);
   useEffect(() => {
     if (!email) {
       navigate('/chat');
@@ -50,7 +52,7 @@ const SingleChat: FC = () => {
       <ContactInfo roomId={roomId} />
       <div className={styles.dialogContainer}>
         <MessagesContainer />
-        <InputMessageContainer roomId={roomId} />
+        <InputMessageContainer roomId={roomId} userData={userData} />
       </div>
     </section>
   );
