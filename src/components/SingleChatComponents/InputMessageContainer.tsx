@@ -13,18 +13,21 @@ const InputMessageContainer: FC<InputMessageContainerIProps> = ({ roomId }) => {
   const changeMessage = setState('messageValue');
 
   const sendMessageHandler = () => {
-    if (value.messageValue.trim().length) {
-      wsEvents?.emitEventsHandler('sendMessage')(value.messageValue, roomId as number);
-      changeMessage('');
-    }
+    wsEvents?.emitEventsHandler('sendMessage')(value.messageValue, roomId as number);
+    changeMessage('');
   };
 
   const wsEvents = useContext(WebSocketEventsContext);
   return (
     <div
       onKeyDown={e => {
-        if (e.key === 'Enter') {
-          sendMessageHandler();
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          if (!value.messageValue.trim().length) {
+            changeMessage('');
+          } else {
+            sendMessageHandler();
+          }
         }
       }}
       className={styles.inputMessageContainer}
