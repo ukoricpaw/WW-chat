@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from '../../styles/SingleChat.module.scss';
 import { useContext } from 'react';
 import { WebSocketEventsContext } from '../GeneralComponents/WebSocketLayout';
@@ -15,17 +15,17 @@ const InputMessageContainer: FC<InputMessageContainerIProps> = ({ roomId, userDa
   const [value, setState] = useFormFields({ messageValue: '' });
   const changeMessage = setState('messageValue');
   const debouncedValue = useDebounce({ value: value.messageValue, delay: 750 });
-  const refValue = useRef<string>('');
+  const [isTyping, setIsTyping] = useState<boolean>(false);
 
   useEffect(() => {
-    if (value.messageValue !== refValue.current && value.messageValue.trim().length) {
+    if (isTyping) {
       wsEvents?.emitEventsHandler('typeMessageToRoom')(roomId, userData);
     }
-  }, [refValue.current]);
+  }, [isTyping]);
 
   useEffect(() => {
     wsEvents?.emitEventsHandler('stopTypingMessageToRoom')(roomId, userData);
-    refValue.current = debouncedValue;
+    setIsTyping(false);
   }, [debouncedValue]);
 
   const sendMessageHandler = () => {
@@ -51,7 +51,10 @@ const InputMessageContainer: FC<InputMessageContainerIProps> = ({ roomId, userDa
     >
       <textarea
         placeholder="Сообщение"
-        onChange={changeMessage}
+        onChange={e => {
+          setIsTyping(true);
+          changeMessage(e);
+        }}
         value={value.messageValue}
         rows={1}
         className={styles.inputMessage}
