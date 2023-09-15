@@ -18,7 +18,7 @@ const WebSocketLayout: FC<{ children: ReactNode }> = ({ children }) => {
   const dispatch = useAppDispatch();
   const onEventsHandlers = onEvents(dispatch);
   useEffect(() => {
-    socketRef.current = io(process.env.REACT_APP_API_URL as string, {
+    socketRef.current = io('http://192.168.8.108:5000', {
       withCredentials: true,
       query: { userId: data.id },
     });

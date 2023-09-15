@@ -22,6 +22,7 @@
 .dialogContainer {
   width: 600px;
   & .messagesContainer {
+    overflow-y: scroll;
     flex: 1 1 auto;
   }
 

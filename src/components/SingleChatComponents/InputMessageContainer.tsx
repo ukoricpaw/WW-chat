@@ -3,7 +3,6 @@ import styles from '../../styles/SingleChat.module.scss';
 import { useContext } from 'react';
 import { WebSocketEventsContext } from '../GeneralComponents/WebSocketLayout';
 import useFormFields from '../../hooks/useFormFields';
-import useDebounce from '../../hooks/useDebounce';
 import { UserType } from '../../types/userTypes';
 
 interface InputMessageContainerIProps {
@@ -14,7 +13,6 @@ interface InputMessageContainerIProps {
 const InputMessageContainer: FC<InputMessageContainerIProps> = ({ roomId, userData }) => {
   const [value, setState] = useFormFields({ messageValue: '' });
   const changeMessage = setState('messageValue');
-  const debouncedValue = useDebounce({ value: value.messageValue, delay: 750 });
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
   useEffect(() => {
@@ -24,9 +22,14 @@ const InputMessageContainer: FC<InputMessageContainerIProps> = ({ roomId, userDa
   }, [isTyping]);
 
   useEffect(() => {
-    wsEvents?.emitEventsHandler('stopTypingMessageToRoom')(roomId, userData);
-    setIsTyping(false);
-  }, [debouncedValue]);
+    const timeout = setTimeout(() => {
+      wsEvents?.emitEventsHandler('stopTypingMessageToRoom')(roomId, userData);
+      setIsTyping(false);
+    }, 750);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [value.messageValue]);
 
   const sendMessageHandler = () => {
     wsEvents?.emitEventsHandler('sendMessage')(value.messageValue, roomId as number);
