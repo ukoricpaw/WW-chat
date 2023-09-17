@@ -34,6 +34,7 @@ const InputMessageContainer: FC<InputMessageContainerIProps> = ({ roomId, userDa
   const sendMessageHandler = () => {
     wsEvents?.emitEventsHandler('sendMessage')(value.messageValue, roomId as number);
     wsEvents?.emitEventsHandler('stopTypingMessageToRoom')(roomId, userData);
+    setIsTyping(false);
     changeMessage('');
   };
 
