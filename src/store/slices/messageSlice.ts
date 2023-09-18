@@ -6,6 +6,8 @@ const initialState: MessagesState = {
   messages: [],
   roomId: null,
   isLoading: true,
+  totalCount: 0,
+  page: 1,
 };
 
 const messageSlice = createSlice({
