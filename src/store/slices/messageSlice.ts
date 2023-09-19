@@ -1,6 +1,7 @@
 import { MessageType, MessagesState } from '../../types/messageTypes';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { pushNotification } from './roomsSlice';
+import { getMessagesThunk } from '../thunks/getMessagesThunk';
 
 const initialState: MessagesState = {
   messages: [],
@@ -34,6 +35,9 @@ const messageSlice = createSlice({
         return;
       }
       state.messages.push(action.payload.data.lastMessage);
+    });
+    builder.addCase(getMessagesThunk.fulfilled, (state, action) => {
+      state.messages.push(action.payload?.data);
     });
   },
 });
